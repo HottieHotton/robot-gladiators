@@ -22,7 +22,13 @@ promptFight = promptFight.toLowerCase();
 
 
 var fight = function(enemy) {
+  var isPlayerTurn = true;
+
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
   while (playerInfo.health > 0 && enemy.health > 0) {
+    if(isPlayerTurn){
     if (fightOrSkip()) {
       // if true, leave fight by breaking loop
       break;
@@ -50,6 +56,8 @@ var fight = function(enemy) {
   } else {
     window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
   }
+}
+  isPlayerTurn = !isPlayerTurn;
 }
 };
 
@@ -161,20 +169,16 @@ else {
 
 //Shop
 var shop = function() {
-  var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.")
+  var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE.")
+  shopOptionPrompt = parseInt(shopOptionPrompt);
   switch (shopOptionPrompt) {
-    case "REFILL":
-    case "refill": refillHealth();
+    case 1: playerInfo.refillHealth();
       break;
-    case "UPGRADE":
-    case "upgrade": upgradeAttack();
+    case 2: playerInfo.upgradeAttack();
       break;
-    case "LEAVE":
-    case "leave": window.alert("Leaving the store.");
-      // do nothing, so function will end
+    case 3: window.alert("Leaving the store.");
       break;
     default: window.alert("You did not pick a valid option. Try again.");
-      // call shop() again to force player to pick a valid option
       shop();
       break;
   }
